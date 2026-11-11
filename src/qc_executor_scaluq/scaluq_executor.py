@@ -128,5 +128,7 @@ class ScaluqExecutor(ExecutorBase):
     def _transpile_circuit(self, circuit: QuantumCircuitBase) -> QuantumCircuitBase:
         raise NotImplementedError
 
-    def _transpile_operator(self, operator: QuantumOperatorBase) -> QuantumOperatorBase:
+    def _transpile_operator(
+        self, operator: QuantumOperatorBase, **options: Any
+    ) -> QuantumOperatorBase:
         raise NotImplementedError

@@ -11,4 +11,6 @@ from qc_executor_scaluq import ScaluqExecutor
 @pytest.fixture
 def scaluq_executor() -> ScaluqExecutor:
     """Return a freshly-constructed ScaluqExecutor."""
-    return Executor.create("scaluq")
+    executor = Executor.create("scaluq")
+    assert isinstance(executor, ScaluqExecutor)
+    return executor
