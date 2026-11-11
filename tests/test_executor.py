@@ -1,9 +1,7 @@
-"""Stub tests for MyBackendExecutor abstract methods.
+"""Tests for ScaluqExecutor.
 
-Each abstract method is asserted to raise ``NotImplementedError`` so the suite
-is green on a fresh template clone. As you implement each method, replace the
-``pytest.raises(NotImplementedError)`` block with a real assertion against the
-returned value.
+Methods that are not implemented yet are asserted to raise
+``NotImplementedError``.
 """
 
 from __future__ import annotations
@@ -11,28 +9,28 @@ from __future__ import annotations
 import pytest
 from qc_executor.factory import Executor
 
-from qc_executor_mybackend import MyBackendExecutor
+from qc_executor_scaluq import ScaluqExecutor
 
 
-def test_remote_property_is_local(mybackend_executor) -> None:
-    """Default template assumes a local backend. Override if remote."""
-    assert mybackend_executor.remote is False
+def test_remote_property_is_local(scaluq_executor) -> None:
+    """Scaluq runs locally, so the executor is not remote."""
+    assert scaluq_executor.remote is False
 
 
-def test_get_accepted_backend_types(mybackend_executor) -> None:
-    """Backend-type list is empty in the template; populate with your SDK's classes."""
-    assert mybackend_executor.get_accepted_backend_types() == []
+def test_get_accepted_backend_types(scaluq_executor) -> None:
+    """No backend object types are registered for auto-detection."""
+    assert scaluq_executor.get_accepted_backend_types() == []
 
 
-def test_get_accepted_backend_aliases(mybackend_executor) -> None:
-    """Alias list is empty in the template; populate with your backend's short names."""
-    assert mybackend_executor.get_accepted_backend_aliases() == []
+def test_get_accepted_backend_aliases(scaluq_executor) -> None:
+    """No backend aliases are registered."""
+    assert scaluq_executor.get_accepted_backend_aliases() == []
 
 
 def test_factory_forwards_configuration() -> None:
     """The factory should pass constructor kwargs straight through to the plugin."""
-    executor = Executor.create("mybackend", shots=1024, seed=42)
-    assert isinstance(executor, MyBackendExecutor)
+    executor = Executor.create("scaluq", shots=1024, seed=42)
+    assert isinstance(executor, ScaluqExecutor)
     config = executor.get_config()
     assert config["shots"] == 1024
     assert config["seed"] == 42
@@ -40,44 +38,44 @@ def test_factory_forwards_configuration() -> None:
 
 def test_switch_backend_preserves_configuration() -> None:
     """``switch_backend`` round-trips this plugin's configuration."""
-    executor = Executor.create("mybackend", shots=1024, seed=42)
-    switched = executor.switch_backend("mybackend", shots=2048)
-    assert isinstance(switched, MyBackendExecutor)
+    executor = Executor.create("scaluq", shots=1024, seed=42)
+    switched = executor.switch_backend("scaluq", shots=2048)
+    assert isinstance(switched, ScaluqExecutor)
     assert switched.get_config()["shots"] == 2048
     assert switched.get_config()["seed"] == 42
 
 
-def test_expectation_value_stub(mybackend_executor) -> None:
-    """``expectation_value`` should raise until you implement ``_expectation_value``."""
+def test_expectation_value_stub(scaluq_executor) -> None:
+    """``expectation_value`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.expectation_value(circuit=None, observable=None)
+        scaluq_executor.expectation_value(circuit=None, observable=None)
 
 
-def test_expectation_value_derivatives_stub(mybackend_executor) -> None:
-    """``expectation_value_derivatives`` should raise until you implement it."""
+def test_expectation_value_derivatives_stub(scaluq_executor) -> None:
+    """``expectation_value_derivatives`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.expectation_value_derivatives(circuit=None, observable=None)
+        scaluq_executor.expectation_value_derivatives(circuit=None, observable=None)
 
 
-def test_sample_stub(mybackend_executor) -> None:
-    """``sample`` should raise until you implement ``_sample``."""
+def test_sample_stub(scaluq_executor) -> None:
+    """``sample`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.sample(circuit=None)
+        scaluq_executor.sample(circuit=None)
 
 
-def test_statevector_stub(mybackend_executor) -> None:
-    """``statevector`` should raise until you implement ``_statevector``."""
+def test_statevector_stub(scaluq_executor) -> None:
+    """``statevector`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.statevector(circuit=None)
+        scaluq_executor.statevector(circuit=None)
 
 
-def test_transpile_circuit_stub(mybackend_executor) -> None:
-    """``transpile_circuit`` should raise until you implement ``_transpile_circuit``."""
+def test_transpile_circuit_stub(scaluq_executor) -> None:
+    """``transpile_circuit`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.transpile_circuit(circuit=None)
+        scaluq_executor.transpile_circuit(circuit=None)
 
 
-def test_transpile_operator_stub(mybackend_executor) -> None:
-    """``transpile_operator`` should raise until you implement ``_transpile_operator``."""
+def test_transpile_operator_stub(scaluq_executor) -> None:
+    """``transpile_operator`` is not implemented yet."""
     with pytest.raises(NotImplementedError):
-        mybackend_executor.transpile_operator(operator=None)
+        scaluq_executor.transpile_operator(operator=None)

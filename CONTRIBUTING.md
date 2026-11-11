@@ -1,4 +1,4 @@
-# Contributing to qc-executor-mybackend
+# Contributing to qc-executor-scaluq
 
 Thank you for your interest in contributing! This document covers everything you
 need to get started.
@@ -8,8 +8,8 @@ need to get started.
 Prerequisites: [uv](https://docs.astral.sh/uv/getting-started/installation/) installed.
 
 ```bash
-git clone https://github.com/your-org/qc-executor-mybackend.git
-cd qc-executor-mybackend
+git clone https://github.com/ProfessorNova/qc-executor-scaluq.git
+cd qc-executor-scaluq
 uv sync --group dev
 ```
 
@@ -40,7 +40,7 @@ uv run black -l 99 src tests
 Linting via [Pylint](https://pylint.readthedocs.io/):
 
 ```bash
-uv run pylint src/qc_executor_mybackend
+uv run pylint src/qc_executor_scaluq
 ```
 
 Both are checked automatically in CI on every PR.
@@ -54,34 +54,30 @@ Use Google-style Python docstrings across the project.
   underlines.
 - Keep argument and return types aligned with function signatures.
 
-## Implementing the Executor Contract
+## Executor Contract
 
 The plugin contract is defined by the
-[QC Executor framework](https://github.com/flaqship/qc-executor) (this template
-targets v0.1.0). Your job is to fill in the abstract methods declared on
+[QC Executor framework](https://github.com/flaqship/qc-executor) (this plugin
+targets v0.1.0). `ScaluqExecutor` implements the abstract methods declared on
 [`ExecutorBase`](https://github.com/flaqship/qc-executor/blob/main/src/qc_executor/base/executor_base.py):
 
-| Method | What it should do |
-| ------ | ----------------- |
+| Method | What it does |
+| ------ | ------------ |
 | `_expectation_value` | Return the expectation value of an observable on a circuit. |
 | `_expectation_value_derivatives` | Return analytic gradients of the expectation value. |
 | `_sample` | Return measurement-shot counts. |
 | `_statevector` | Return the full statevector. |
-| `_transpile_circuit` | Convert a generic circuit into your backend-native form. |
-| `_transpile_operator` | Convert a generic operator into your backend-native form. |
+| `_transpile_circuit` | Convert a generic circuit into a Scaluq-native circuit. |
+| `_transpile_operator` | Convert a generic operator into a Scaluq-native operator. |
 | `get_accepted_backend_types` | List native backend/device classes for auto-detection. |
-| `get_accepted_backend_aliases` | List string aliases the factory should route here. |
+| `get_accepted_backend_aliases` | List string aliases the factory routes here. |
 
-Replace each `raise NotImplementedError` in `src/qc_executor_mybackend/` with
-your implementation, and convert each `pytest.raises(NotImplementedError)` test
-in `tests/test_executor.py` into a real assertion.
-
-Register the executor with the factory through the `qc_executor.backends` entry
-point in `pyproject.toml` — the template already declares it:
+The executor is registered with the factory through the `qc_executor.backends`
+entry point in `pyproject.toml`:
 
 ```toml
 [project.entry-points."qc_executor.backends"]
-mybackend = "qc_executor_mybackend:MyBackendExecutor"
+scaluq = "qc_executor_scaluq:ScaluqExecutor"
 ```
 
 ## Changelog
@@ -91,10 +87,10 @@ Every PR that changes user-facing behaviour should add an entry to
 
 ## Releasing (Maintainers)
 
-1. Update the version in `src/qc_executor_mybackend/__init__.py`
+1. Update the version in `src/qc_executor_scaluq/__init__.py`
 2. Move the `[Unreleased]` section in `CHANGELOG.md` to a new versioned section
 3. Commit: `git commit -m "chore: release vX.Y.Z"`
 4. Tag: `git tag vX.Y.Z && git push --tags`
-5. Create a GitHub Release – the `publish.yml` workflow will build and upload
-   to PyPI automatically (after you've configured trusted publishing — see the
-   TODO in `.github/workflows/publish.yml`).
+5. Create a GitHub Release – the `publish.yml` workflow builds and uploads the
+   package to PyPI automatically via
+   [trusted publishing](https://docs.pypi.org/trusted-publishers/).

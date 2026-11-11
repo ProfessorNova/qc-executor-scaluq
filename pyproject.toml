@@ -3,62 +3,67 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [project]
-name = "qc-executor-mybackend"
-description = "QC Executor plugin template — replace this description with your backend's purpose."
+name = "qc-executor-scaluq"
+description = "QC Executor backend plugin for the Scaluq quantum circuit simulator."
 readme = "README.md"
-authors = [
-    {name = "Your Name", email = "you@example.com"},
-]
-maintainers = [
-    {name = "Your Name", email = "you@example.com"},
-]
-license = {file = "LICENSE.txt"}
+authors = [{ name = "Florian Wieland", email = "mail@florianwieland.de" }]
+maintainers = [{ name = "Florian Wieland", email = "mail@florianwieland.de" }]
+license = { file = "LICENSE.txt" }
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: Apache Software License",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: Physics",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
-keywords = ["quantum", "circuit", "executor", "qc-executor", "plugin", "backend"]
-dependencies = [
-    "qc-executor>=0.1.0",
-    "numpy>=1.20",
+keywords = [
+  "quantum",
+  "circuit",
+  "executor",
+  "qc-executor",
+  "plugin",
+  "backend",
 ]
+dependencies = ["qc-executor>=0.1.0", "numpy>=1.20"]
 requires-python = ">=3.10"
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://github.com/your-org/qc-executor-mybackend"
-Issues = "https://github.com/your-org/qc-executor-mybackend/issues"
+Homepage = "https://github.com/ProfessorNova/qc-executor-scaluq"
+Issues = "https://github.com/ProfessorNova/qc-executor-scaluq/issues"
 
 [project.entry-points."qc_executor.backends"]
-mybackend = "qc_executor_mybackend:MyBackendExecutor"
+scaluq = "qc_executor_scaluq:ScaluqExecutor"
 
 [dependency-groups]
-dev = [
-    "black[jupyter]",
-    "pylint",
-    "pytest",
-    "nbmake",
-]
+dev = ["black[jupyter]", "pylint", "pytest", "nbmake"]
 
 [tool.uv]
 managed = true
 
 [tool.hatch.version]
-path = "src/qc_executor_mybackend/__init__.py"
+path = "src/qc_executor_scaluq/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/qc_executor_mybackend"]
+packages = ["src/qc_executor_scaluq"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "examples", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "LICENSE.txt", "pyproject.toml"]
+include = [
+  "src",
+  "tests",
+  "examples",
+  "README.md",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "LICENSE.txt",
+  "pyproject.toml",
+]
 
 [tool.black]
 line-length = 99
@@ -78,33 +83,27 @@ max-locals = 50
 max-public-methods = 50
 
 [tool.pylint.main]
-extension-pkg-allow-list = [
-    "numpy",
-]
+extension-pkg-allow-list = ["numpy"]
 
 [tool.pylint.classes]
 # Recognise pytest's setup_method/setup_class as valid places to define
 # instance/class attributes, alongside the usual dunder and unittest hooks.
 defining-attr-methods = [
-    "__init__",
-    "__new__",
-    "setUp",
-    "asyncSetUp",
-    "__post_init__",
-    "setup_method",
-    "setup_class",
+  "__init__",
+  "__new__",
+  "setUp",
+  "asyncSetUp",
+  "__post_init__",
+  "setup_method",
+  "setup_class",
 ]
-
-[tool.pylint."messages control"]
-# TODO comments in this template are intentional hand-offs to the vendor.
-disable = ["fixme"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-    "pragma: no cover",
-    "raise NotImplementedError",
-    "@abstractmethod",
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "@abstractmethod",
 ]

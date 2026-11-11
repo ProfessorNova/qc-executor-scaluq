@@ -65,10 +65,11 @@ Every occurrence of `mybackend` / `MyBackend` / `qc-executor-mybackend` /
 
    Note that `qc_executor` / `qc-executor` on their own refer to the framework
    and must **not** be renamed.
+
 5. **Update author / homepage / contact info** in `pyproject.toml`,
    `SECURITY.md`, `CONTRIBUTING.md`, `.github/ISSUE_TEMPLATE/config.yml`.
 6. **Update `LICENSE.txt`** — fill in the `Copyright [yyyy] [name of copyright
-   owner]` line with your name and year (or replace the file entirely if you
+owner]` line with your name and year (or replace the file entirely if you
    want a different license).
 7. **Run the tests** — `uv sync --group dev && uv run pytest tests/`. Everything
    should still be green; the registration test confirms your renamed plugin
@@ -81,16 +82,16 @@ subclasses
 [`ExecutorBase`](https://github.com/flaqship/qc-executor/blob/main/src/qc_executor/base/executor_base.py).
 Replace each stub:
 
-| Method | Returns | Notes |
-| ------ | ------- | ----- |
-| `_expectation_value` | `float \| np.ndarray` | Expectation value of an observable on a circuit. |
-| `_expectation_value_derivatives` | `float \| np.ndarray \| dict` | Analytic gradients with respect to circuit parameters. |
-| `_sample` | `dict \| list[dict]` | Measurement-shot counts (bitstring → count). |
-| `_statevector` | `np.ndarray` | Full statevector of the circuit. |
-| `_transpile_circuit` | `QuantumCircuitBase` | Convert a generic circuit into your backend-native form. |
-| `_transpile_operator` | `QuantumOperatorBase` | Convert a generic operator into your backend-native form. |
-| `get_accepted_backend_types` | `list[type]` | Native backend classes; powers auto-detection. |
-| `get_accepted_backend_aliases` | `list[str]` | Short names the factory should route here. |
+| Method                           | Returns                       | Notes                                                     |
+| -------------------------------- | ----------------------------- | --------------------------------------------------------- |
+| `_expectation_value`             | `float \| np.ndarray`         | Expectation value of an observable on a circuit.          |
+| `_expectation_value_derivatives` | `float \| np.ndarray \| dict` | Analytic gradients with respect to circuit parameters.    |
+| `_sample`                        | `dict \| list[dict]`          | Measurement-shot counts (bitstring → count).              |
+| `_statevector`                   | `np.ndarray`                  | Full statevector of the circuit.                          |
+| `_transpile_circuit`             | `QuantumCircuitBase`          | Convert a generic circuit into your backend-native form.  |
+| `_transpile_operator`            | `QuantumOperatorBase`         | Convert a generic operator into your backend-native form. |
+| `get_accepted_backend_types`     | `list[type]`                  | Native backend classes; powers auto-detection.            |
+| `get_accepted_backend_aliases`   | `list[str]`                   | Short names the factory should route here.                |
 
 The public wrappers (`expectation_value`, `sample`, …) live on `ExecutorBase`
 and handle parameter normalisation and result caching before delegating to your

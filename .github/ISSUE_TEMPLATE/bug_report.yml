@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug or unexpected behaviour in the MyBackend executor plugin
+description: Report a bug or unexpected behaviour in the Scaluq executor plugin
 labels: ["bug", "triage"]
 body:
   - type: markdown
@@ -43,11 +43,11 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: "Python version (`python --version`), qc-executor version, qc-executor-mybackend version, OS"
+      description: "Python version (`python --version`), qc-executor version, qc-executor-scaluq version, OS"
       placeholder: |
         - Python: 3.11.x
         - qc-executor: 0.1.0
-        - qc-executor-mybackend: 0.0.1
+        - qc-executor-scaluq: 0.0.1
         - OS: Ubuntu 22.04
     validations:
       required: true

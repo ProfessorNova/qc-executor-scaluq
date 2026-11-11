@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest a new feature or improvement for the MyBackend executor plugin
+description: Suggest a new feature or improvement for the Scaluq executor plugin
 labels: ["enhancement"]
 body:
   - type: textarea

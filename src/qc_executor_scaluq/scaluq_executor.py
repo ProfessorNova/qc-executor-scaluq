@@ -1,9 +1,6 @@
-"""MyBackend executor implementation — the meat of a plugin.
+"""Scaluq executor for the QC Executor framework.
 
-Subclass of :class:`qc_executor.base.executor_base.ExecutorBase`. Replace each
-``raise NotImplementedError`` with the actual backend logic. Tests in
-``tests/test_executor.py`` assert that these stubs raise; convert each test to
-a real assertion as you implement the corresponding method.
+Subclass of :class:`qc_executor.base.executor_base.ExecutorBase`.
 """
 
 from __future__ import annotations
@@ -15,19 +12,18 @@ from qc_executor.base.circuit_base import QuantumCircuitBase
 from qc_executor.base.executor_base import ExecutorBase
 from qc_executor.base.operator_base import QuantumOperatorBase
 
-from .mybackend_circuit import MyBackendCircuit
-from .mybackend_operator import MyBackendOperator
+from .scaluq_circuit import ScaluqCircuit
+from .scaluq_operator import ScaluqOperator
 
 
-class MyBackendExecutor(ExecutorBase):
-    """Executor plugin for MyBackend.
+class ScaluqExecutor(ExecutorBase):
+    """Executor plugin for Scaluq.
 
     Args:
         backend (Any, optional): Backend-native device/simulator object or its
             string name. The framework convention is that this parameter is
             always called ``backend``; the factory forwards auto-detected
-            objects and aliases through it. Drop the parameter if your backend
-            has nothing to select.
+            objects and aliases through it.
         shots (int | None, optional): Number of shots for sampling.
         seed (int | None, optional): Random seed for reproducibility.
         log_file (str | None, optional): Path to the log file.
@@ -38,8 +34,8 @@ class MyBackendExecutor(ExecutorBase):
             in each in-memory cache.
     """
 
-    _native_circuit_class = MyBackendCircuit
-    _native_operator_class = MyBackendOperator
+    _native_circuit_class = ScaluqCircuit
+    _native_operator_class = ScaluqOperator
 
     def __init__(
         self,
@@ -64,7 +60,7 @@ class MyBackendExecutor(ExecutorBase):
         )
 
         # Dedicated caches for converted circuits/operators, mirroring the
-        # in-tree backends. Drop these if your backend does no conversion.
+        # in-tree backends.
         self._circuit_cache = self._make_cache()
         self._operator_cache = self._make_cache()
 
@@ -87,17 +83,16 @@ class MyBackendExecutor(ExecutorBase):
     def get_accepted_backend_types(cls) -> List[type]:
         """Backend object types this executor accepts for auto-detection.
 
-        Return the native backend/device classes from your SDK so that callers
-        can pass an instance directly to
-        :meth:`qc_executor.factory.Executor.create` and have it routed here.
+        Instances of these types passed to
+        :meth:`qc_executor.factory.Executor.create` are routed to this executor.
         """
         return []
 
     @classmethod
     def get_accepted_backend_aliases(cls) -> List[str]:
-        """String aliases the factory should route to this executor.
+        """String aliases the factory routes to this executor.
 
-        Return any short names callers might pass instead of ``"mybackend"``.
+        Aliases are short names callers can pass instead of ``"scaluq"``.
         Each alias is forwarded to ``__init__`` as ``backend=<alias>``, and
         aliases must be unique across all registered backends.
         """
@@ -109,7 +104,7 @@ class MyBackendExecutor(ExecutorBase):
         observable: QuantumOperatorBase | List[QuantumOperatorBase],
         **parameters,
     ) -> float | np.ndarray:
-        raise NotImplementedError("TODO: implement _expectation_value for MyBackend")
+        raise NotImplementedError
 
     def _expectation_value_derivatives(
         self,
@@ -118,20 +113,20 @@ class MyBackendExecutor(ExecutorBase):
         *derivative,
         **parameters,
     ) -> float | np.ndarray | dict:
-        raise NotImplementedError("TODO: implement _expectation_value_derivatives for MyBackend")
+        raise NotImplementedError
 
     def _sample(
         self, circuit: QuantumCircuitBase | List[QuantumCircuitBase], **parameters
     ) -> dict | List[dict]:
-        raise NotImplementedError("TODO: implement _sample for MyBackend")
+        raise NotImplementedError
 
     def _statevector(
         self, circuit: QuantumCircuitBase | List[QuantumCircuitBase], **parameters
     ) -> np.ndarray:
-        raise NotImplementedError("TODO: implement _statevector for MyBackend")
+        raise NotImplementedError
 
     def _transpile_circuit(self, circuit: QuantumCircuitBase) -> QuantumCircuitBase:
-        raise NotImplementedError("TODO: implement _transpile_circuit for MyBackend")
+        raise NotImplementedError
 
     def _transpile_operator(self, operator: QuantumOperatorBase) -> QuantumOperatorBase:
-        raise NotImplementedError("TODO: implement _transpile_operator for MyBackend")
+        raise NotImplementedError
