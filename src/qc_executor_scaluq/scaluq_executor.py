@@ -125,10 +125,8 @@ class ScaluqExecutor(ExecutorBase):
     ) -> np.ndarray:
         raise NotImplementedError
 
-    def _transpile_circuit(self, circuit: QuantumCircuitBase) -> QuantumCircuitBase:
+    def _transpile_circuit(self, circuit: QuantumCircuitBase) -> ScaluqCircuit:
         raise NotImplementedError
 
-    def _transpile_operator(
-        self, operator: QuantumOperatorBase, **options: Any
-    ) -> QuantumOperatorBase:
+    def _transpile_operator(self, operator: QuantumOperatorBase, **options: Any) -> ScaluqOperator:
         raise NotImplementedError

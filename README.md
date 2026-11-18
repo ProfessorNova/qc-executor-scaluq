@@ -6,7 +6,7 @@
 > Click **Use this template** on GitHub to start a new plugin repo from this
 > scaffold, then walk through the [Rename Checklist](#rename-checklist) below.
 >
-> Targets QC Executor **v0.1.0**.
+> Targets QC Executor **v0.2.1**.
 
 ---
 
@@ -84,12 +84,12 @@ Replace each stub:
 
 | Method                           | Returns                       | Notes                                                     |
 | -------------------------------- | ----------------------------- | --------------------------------------------------------- |
-| `_expectation_value`             | `float \| np.ndarray`         | Expectation value of an observable on a circuit.          |
-| `_expectation_value_derivatives` | `float \| np.ndarray \| dict` | Analytic gradients with respect to circuit parameters.    |
-| `_sample`                        | `dict \| list[dict]`          | Measurement-shot counts (bitstring → count).              |
-| `_statevector`                   | `np.ndarray`                  | Full statevector of the circuit.                          |
 | `_transpile_circuit`             | `QuantumCircuitBase`          | Convert a generic circuit into your backend-native form.  |
 | `_transpile_operator`            | `QuantumOperatorBase`         | Convert a generic operator into your backend-native form. |
+| `_statevector`                   | `np.ndarray`                  | Full statevector of the circuit.                          |
+| `_sample`                        | `dict \| list[dict]`          | Measurement-shot counts (bitstring → count).              |
+| `_expectation_value`             | `float \| np.ndarray`         | Expectation value of an observable on a circuit.          |
+| `_expectation_value_derivatives` | `float \| np.ndarray \| dict` | Analytic gradients with respect to circuit parameters.    |
 | `get_accepted_backend_types`     | `list[type]`                  | Native backend classes; powers auto-detection.            |
 | `get_accepted_backend_aliases`   | `list[str]`                   | Short names the factory should route here.                |
 
@@ -97,10 +97,7 @@ The public wrappers (`expectation_value`, `sample`, …) live on `ExecutorBase`
 and handle parameter normalisation and result caching before delegating to your
 underscore-prefixed implementations — implement only the latter.
 
-A generic `QuantumCircuit` carries a Qiskit circuit as its intermediate
-representation (`circuit.qiskit_circuit`), and a generic `QuantumOperator`
-carries a Qiskit `SparsePauliOp` (`operator.qiskit_operator`). Build your native
-form from those in the circuit/operator wrappers.
+A generic `QuantumCircuitBase` carries an intermediate circuit representation (`CircuitIR`), so it doesn't depend on any other backend.
 
 ### Backend object convention
 
@@ -140,14 +137,13 @@ QC Executor is published on PyPI as
 
 ```toml
 dependencies = [
-    "qc-executor>=0.1.0",
+   "qc-executor>=0.2.1",
 ]
 ```
 
-The framework only requires Qiskit (used as the common intermediate
-representation). If your plugin needs one of its optional backends for
+If your plugin needs one of its optional backends for
 comparison in tests, add the matching extra, for example
-`qc-executor[qulacs]>=0.1.0`.
+`qc-executor[qulacs]>=0.2.1`.
 
 ## Publishing to PyPI
 
